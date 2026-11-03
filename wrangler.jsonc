@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mortuary-system",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-03",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mortuary-system",
+      "database_id": "fd8146b5-83f0-410f-bef1-32c13ec09d69",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

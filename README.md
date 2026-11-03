@@ -2,13 +2,7 @@
 
 A React and Vite portal for managing mortuary service requests, user accounts, notifications, and admin approvals.
 
-## Demo accounts
-
-- Admin: `admin@jdc.com` / `admin123`
-- User: `ahmed@example.com` / `pass123`
-- User: `sana@example.com` / `pass123`
-
-The current sample data includes a **Head Admin** and customer accounts. These credentials are for local demonstration only; change or remove them before deployment. Existing plaintext passwords are automatically converted to salted password hashes when the backend starts. New customer accounts can register immediately. A person registering through **Register as Admin** is stored as a pending request and cannot log in as an admin until the Head Admin approves it. Approved admins can manage customer bookings; only the Head Admin can manage admin registrations and approved admin accounts.
+New customer accounts can register immediately. A person registering through **Register as Admin** is stored as a pending request and cannot log in as an admin until the Head Admin approves it. Approved admins can manage customer bookings; only the Head Admin can manage admin registrations and approved admin accounts.
 
 ## Data storage
 
@@ -47,21 +41,39 @@ npm run dev
 npm run build
 ```
 
-## Deploy on Render
+## Deploy the full app on Cloudflare
 
-This is a Node.js application, so Render installs its dependencies from
-`package.json` and `package-lock.json`; it does not need a Python
-`requirements.txt`. The root `render.yaml` configures a single web service that
-builds the Vite frontend and runs it with the Express backend.
+The Cloudflare Worker in `worker.js` serves the Vite build and handles the API.
+It stores accounts, bookings, notifications, and admin requests in D1. The
+Express/JSON-file backend remains available for local development; it is not the
+backend deployed to Cloudflare.
 
-In Render, create a new Blueprint from this repository. Before the first deploy,
-set `ADMIN_EMAIL` and `ADMIN_PASSWORD` as service environment variables to
-create the initial Head Admin. Use a unique password of at least 12 characters.
+1. Push the repository to GitHub and create a D1 database named
+   `mortuary-system` in the Cloudflare dashboard (or run
+   `npx wrangler d1 create mortuary-system`).
+2. Copy its database ID into `database_id` in `wrangler.jsonc`, replacing the
+   all-zero placeholder, then commit and push that change.
+3. In the project root, install dependencies and apply the schema to D1:
 
-The app stores records in a JSON file. Render's default filesystem is ephemeral,
-so data can be lost when the service is redeployed or restarted. For persistent
-records, attach a persistent disk and set `MORTUARY_DATA_FILE` to a file path on
-its mount point, such as `/var/data/data.json`.
+   ```bash
+   npm ci
+   npx wrangler d1 migrations apply mortuary-system --remote
+   ```
+
+4. Connect the GitHub repository under **Cloudflare Workers & Pages**, using
+   `npm run build` as the build command and `npx wrangler deploy` as the deploy
+   command. The repository root is the project root.
+5. In the Worker settings, add `ADMIN_EMAIL` and `ADMIN_NAME` as variables;
+   add `ADMIN_PASSWORD` and `SESSION_SECRET` as secrets. The password must be
+   at least 12 characters. Generate a unique session secret of at least 32
+   characters. These admin values create the initial Head Admin when the D1
+   users table is empty; changing them later does not change an existing account.
+6. Deploy, then test customer registration, login, booking, and admin actions.
+
+The frontend and API share the Worker URL, so no separate API URL or CORS
+setting is needed. The existing local JSON data is not automatically copied to
+D1; existing accounts and records need to be migrated separately. Back up
+important records before changing hosting.
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 

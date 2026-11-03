@@ -8,7 +8,11 @@
     "server": "node server.js",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler deploy",
+    "cf:dev": "wrangler dev",
+    "cf:migrate:local": "wrangler d1 migrations apply mortuary-system --local",
+    "cf:migrate:remote": "wrangler d1 migrations apply mortuary-system --remote"
   },
   "dependencies": {
     "express": "^4.21.2",
@@ -20,6 +24,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
     "oxlint": "^1.71.0",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "wrangler": "^4.156.2"
   }
 }

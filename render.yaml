@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: mortuary-system
-    runtime: node
-    buildCommand: npm install && npm run build
-    startCommand: npm run server
-    envVars:
-      - key: NODE_ENV
-        value: production
