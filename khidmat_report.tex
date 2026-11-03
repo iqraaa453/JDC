@@ -1,0 +1,102 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{parskip}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue
+}
+
+\title{\textbf{Khidmat Final Report}\\[0.4em]
+  JDC Mortuary Service Management Portal}
+\author{
+  Marium Zeeshan\\
+  Student ID: \rule{4cm}{0.4pt}
+}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Project Introduction}
+We developed a bilingual web portal for JDC IT City to make mortuary-service requests easier for families to submit and for JDC staff to review. The portal brings customer bookings, request updates, and administrative review together in one simple interface.
+
+\section*{About the Client}
+JDC Foundation Pakistan is a welfare organization that provides community support, including mortuary and funeral services in Karachi. The project is intended to support the organization's service coordination by giving families a convenient way to request assistance and staff a practical way to manage those requests.
+
+\section*{Project Need and Objectives}
+Families seeking mortuary assistance may need to communicate several details quickly, while staff need a clear way to track and respond to requests. The client preferred a solution that is easy to use and handy to maintain, rather than a separate database system.
+
+Our objectives were to:
+\begin{itemize}[leftmargin=*]
+  \item provide an online portal for customers to register, sign in, and submit mortuary-service requests;
+  \item collect the contact, location, and service information needed to review each request;
+  \item allow customers to see their requests and receive status updates;
+  \item give administrators a dashboard to review and manage requests; and
+  \item keep the interface accessible in English and Urdu.
+\end{itemize}
+
+\section*{What the Project Does}
+The finished project is a web-based mortuary-service management portal. Visitors can read information about JDC's mortuary services, then use the customer portal to create an account and request assistance. The request form supports Ghusl, Burial Slot, Transport Service, Graveyard Booking, Mayat, Kafan, and Cold Storage. It collects the customer's name and phone number, the city where the body is located, the cause of death, the address, and service details; Cold Storage requests also include a duration and unit.
+
+Customers can log in to view their own bookings and whether each request is pending, approved, or rejected. The portal displays notifications about submitted requests and later status changes. Administrators can review booking requests, approve or reject pending requests, and remove requests. A Head Admin can also review admin-registration requests and manage approved admin accounts. The dashboard summarizes request totals by status and service.
+
+The interface supports English and Urdu, including right-to-left layout for Urdu. It also provides public information about JDC's mortuary services and contact details.
+
+\section*{Implementation and Data Storage}
+We implemented the interface with React and Vite and used a small Express server for the data API. The server reads and writes the application's records as JSON in a \texttt{data.json} file stored outside the frontend's public project root. The file holds user accounts, bookings, notifications, and pending admin requests.
+
+We did not build a relational database or install a database server. This was an intentional choice based on the client's preference for a lightweight, straightforward, and handy system. A JSON file keeps the project's data in a format that is easy to manage for the scope of this portal. The browser does not store a copy of the records or user credentials; it uses an HTTP-only session cookie to communicate the signed-in session to the backend.
+
+The main technologies used are:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Frontend:} React, Vite, HTML, and CSS;
+  \item \textbf{Backend:} Node.js and Express; and
+  \item \textbf{Data persistence:} a JSON file outside the frontend's public root.
+\end{itemize}
+
+\section*{Work Completed}
+We first reviewed the needs represented by the proposal and shaped the portal around the customer and staff workflows. We then implemented the public service information, account registration and login, customer booking form, customer booking list, notification display, and administrator dashboard. We added the Head Admin approval workflow for administrator registrations, connected the frontend to the JSON-file API, and completed the English and Urdu interface.
+
+\section*{Final Review}
+The completed implementation includes the core customer and administrator workflows: account access, booking submission, request status management, notifications, and admin approval. The production frontend build was checked as part of the final review.
+
+The project is a lightweight application for the client's stated preference; it is not presented as a production-grade clinical or records-management platform. Passwords are stored as salted hashes, and the API checks sessions and roles for protected operations. The JSON-file approach is suitable for the current project scope, but it does not provide the concurrency or operational safeguards of a managed database service. If the number of users or simultaneous updates grows, the client can consider a secure server-side database as a later enhancement.
+
+\section*{Conclusion}
+Our Khidmat project delivered a practical web portal for JDC IT City's mortuary-service requests. Customers can submit requests and follow their status, while administrators can review bookings and communicate decisions through notifications. In line with the client's preference for a simple and handy solution, the project stores server-side data in a JSON file instead of introducing a separate database system.
+
+\newpage
+\thispagestyle{empty}
+
+\begin{center}
+  {\Large\bfseries Khidmat Completion Form}\\[5pt]
+  \small To be completed by the external supervisor.
+\end{center}
+\bigskip
+
+\noindent\textit{Please use the space below to provide any comments you may have on the student's performance, the Khidmat program, or any other feedback for the Khidmat committee.}
+\vfill
+
+\begin{center}
+  \rule{.8\textwidth}{.5pt}
+\end{center}
+\medskip
+
+I hereby certify that I supervised Marium Zeeshan for the Khidmat described in this report. I have read and agree with the report, and my signature below marks the successful completion of the work undertaken for the Khidmat.\\
+\bigskip
+\bigskip
+
+\noindent\begin{tabular}{@{}p{.6\textwidth}@{\hspace{.1\textwidth}}p{.3\textwidth}}
+  \hrulefill & \hrulefill \\
+  Name and signature & Location and date
+\end{tabular}
+
+\end{document}
